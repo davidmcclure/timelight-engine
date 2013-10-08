@@ -1,0 +1,10 @@
+{
+    "name": "timeline-core"
+  , "version": "0.0.1"
+  , "private": false
+  , "devDependencies": {
+      "grunt":                ">= 0.4.0"
+    , "grunt-contrib-coffee": ">= 0.7.0"
+    , "grunt-contrib-watch":  ">= 0.2.0"
+  }
+}
