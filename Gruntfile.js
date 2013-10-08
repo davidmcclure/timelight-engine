@@ -18,8 +18,8 @@ module.exports = function(grunt) {
 
     watch: {
       payload: {
-        files: [],
-        tasks: []
+        files: ['*.coffee'],
+        tasks: ['coffee']
       }
     }
 
