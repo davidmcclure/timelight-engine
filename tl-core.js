@@ -1,5 +1,5 @@
 (function() {
-  var Calendar, calendar;
+  var Calendar, calendar, i, segment, strip, _i, _ref;
 
   Calendar = (function() {
     /*
@@ -82,9 +82,9 @@
     #
     # Render a calendar segment.
     #
-    # @param {Object} center
-    # @param {String} labelUnit
-    # @param {String} tickUnit
+    # @param {Object} position
+    # @param {String} displayUnit
+    # @param {String} nativeUnit
     # @param {Number} unitsPerTick
     # @param {Number} tickRadius
     #
@@ -93,28 +93,41 @@
     */
 
 
-    Calendar.prototype.render = function(center, labelUnit, tickUnit, unitsPerTick, tickRadius) {
-      var focusOffset, i, labelOffset, offset, segment, startOffset, _i, _ref;
-      focusOffset = this.positionToUnits(center, tickUnit);
-      startOffset = focusOffset - tickRadius * unitsPerTick;
+    Calendar.prototype.render = function(position, displayUnit, nativeUnit, unitsPerTick, tickRadius) {
+      var dLength, dStart, i, label, nRadius, nStart, segment, ticks, _i, _ref;
+      nRadius = unitsPerTick * tickRadius;
+      nStart = this.positionToUnits(position, nativeUnit) - nRadius;
+      dLength = this.convert(nRadius * 2, nativeUnit, displayUnit);
+      dStart = this.convert(nStart, nativeUnit, displayUnit);
       segment = [];
-      for (i = _i = 0, _ref = tickRadius * 2; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-        offset = startOffset + unitsPerTick * i;
-        labelOffset = this.convert(offset, tickUnit, labelUnit);
-        segment.push(labelOffset % 1 === 0 ? labelOffset : "*");
+      for (i = _i = 0, _ref = Math.floor(dLength); 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+        label = Math.ceil(dStart) + i;
+        ticks = this.convert(label - dStart, displayUnit, nativeUnit) / unitsPerTick;
+        segment[Math.round(ticks)] = label;
       }
-      return segment.join("|");
+      return segment;
     };
 
     return Calendar;
 
   })();
 
-  calendar = new Calendar([["millisecond"], ["second", 1000], ["minute", 60], ["hour", 60], ["day", 24], ["year", 365], ["decade", 10], ["century", 10]]);
+  calendar = new Calendar([["millisecond"], ["second", 1000], ["minute", 60], ["hour", 60], ["day", 24], ["year", 365]]);
 
-  console.log(calendar.render({
-    year: 2013,
-    day: 10
-  }, "year", "day", 50, 50));
+  segment = calendar.render({
+    year: 2013
+  }, "year", "day", 50, 50);
+
+  strip = [];
+
+  for (i = _i = 0, _ref = segment.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+    if (segment[i]) {
+      strip.push(segment[i]);
+    } else {
+      strip.push("*");
+    }
+  }
+
+  console.log(strip.join(""));
 
 }).call(this);

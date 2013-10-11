@@ -74,7 +74,7 @@ class Calendar
 
     # Convert each position part to the target unit, add to total.
     for u, q of position
-      total += @convert q, u, unit
+      total += @convert(q, u, unit)
 
     total
 
@@ -83,45 +83,51 @@ class Calendar
   #
   # Render a calendar segment.
   #
-  # @param {Object} center
-  # @param {String} labelUnit
-  # @param {String} tickUnit
+  # @param {Object} position
+  # @param {String} displayUnit
+  # @param {String} nativeUnit
   # @param {Number} unitsPerTick
   # @param {Number} tickRadius
   #
   # @return {Array}
   #
   ###
-  render: (center, labelUnit, tickUnit, unitsPerTick, tickRadius) ->
+  render: (position, displayUnit, nativeUnit, unitsPerTick, tickRadius) ->
 
-    # First, get the focus in tick units at the left boundary of the segment.
-    focusOffset = @positionToUnits center, tickUnit
-    startOffset = focusOffset - tickRadius*unitsPerTick
+    nRadius = unitsPerTick * tickRadius
+    nStart  = @positionToUnits(position, nativeUnit) - nRadius
+    dLength = @convert(nRadius * 2, nativeUnit, displayUnit)
+    dStart  = @convert(nStart, nativeUnit, displayUnit)
 
     segment = []
-    for i in [0..tickRadius*2]
+    for i in [0..Math.floor(dLength)]
+      label = Math.ceil(dStart) + i
+      ticks = @convert(label - dStart, displayUnit, nativeUnit) / unitsPerTick
+      segment[Math.round(ticks)] = label
 
-      # Get the offset in tick and label units at the current tick.
-      offset = startOffset + unitsPerTick*i
-      labelOffset = @convert offset, tickUnit, labelUnit
-
-      # If the label offset is an integer, push it as a marker.
-      segment.push if labelOffset%1 == 0 then labelOffset else "*"
+    segment
 
 
-    segment.join("|")
+
 
 
 # TODO|dev
 calendar = new Calendar [
   ["millisecond"],
-  ["second", 1000],
-  ["minute", 60],
-  ["hour", 60],
-  ["day", 24],
-  ["year", 365],
-  ["decade", 10],
-  ["century", 10]
+  ["second",  1000],
+  ["minute",  60],
+  ["hour",    60],
+  ["day",     24],
+  ["year",    365]
 ]
 
-console.log calendar.render { year: 2013, day: 10 }, "year", "day", 50, 50
+segment = calendar.render { year: 2013 }, "year", "day", 50, 50
+
+strip = []
+for i in [0...segment.length]
+  if segment[i]
+    strip.push segment[i]
+  else
+    strip.push "*"
+
+console.log strip.join ""
