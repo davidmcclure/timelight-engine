@@ -94,16 +94,39 @@ class Calendar
   ###
   render: (position, displayUnit, nativeUnit, unitsPerTick, tickRadius) ->
 
-    nRadius = unitsPerTick * tickRadius
-    nStart  = @positionToUnits(position, nativeUnit) - nRadius
-    dLength = @convert(nRadius * 2, nativeUnit, displayUnit)
-    dStart  = @convert(nStart, nativeUnit, displayUnit)
+    # The radius (native units).
+    nativeRadius = unitsPerTick * tickRadius
+
+    # The left boudary (native units).
+    nativeStart = @positionToUnits(position, nativeUnit) - nativeRadius
+
+    # The total length (display units).
+    displayLength = @convert(nativeRadius * 2, nativeUnit, displayUnit)
+
+    # The left boundary (display units).
+    displayStart = @convert(nativeStart, nativeUnit, displayUnit)
+
+    # The first label visible in the segment.
+    firstLabel = Math.ceil(displayStart)
+
+    # The number of labels needed to fill the segment.
+    numberOfLabels = Math.floor(displayLength)
 
     segment = []
-    for i in [0..Math.floor(dLength)]
-      label = Math.ceil(dStart) + i
-      ticks = @convert(label - dStart, displayUnit, nativeUnit) / unitsPerTick
-      segment[Math.round(ticks)] = label
+
+    for i in [0..numberOfLabels]
+
+      # Get the new label and measure the distance in native units from the
+      # start of the segment.
+
+      label = firstLabel + i
+      nativeDelta = @convert(label - displayStart, displayUnit, nativeUnit)
+
+      # Convert the offset from the left boundary to rendering ticks, push the
+      # label onto the segment array.
+
+      ticks = Math.round(nativeDelta / unitsPerTick)
+      segment[ticks] = label
 
     segment
 

@@ -94,16 +94,19 @@
 
 
     Calendar.prototype.render = function(position, displayUnit, nativeUnit, unitsPerTick, tickRadius) {
-      var dLength, dStart, i, label, nRadius, nStart, segment, ticks, _i, _ref;
-      nRadius = unitsPerTick * tickRadius;
-      nStart = this.positionToUnits(position, nativeUnit) - nRadius;
-      dLength = this.convert(nRadius * 2, nativeUnit, displayUnit);
-      dStart = this.convert(nStart, nativeUnit, displayUnit);
+      var displayLength, displayStart, firstLabel, i, label, nativeDelta, nativeRadius, nativeStart, numberOfLabels, segment, ticks, _i;
+      nativeRadius = unitsPerTick * tickRadius;
+      nativeStart = this.positionToUnits(position, nativeUnit) - nativeRadius;
+      displayLength = this.convert(nativeRadius * 2, nativeUnit, displayUnit);
+      displayStart = this.convert(nativeStart, nativeUnit, displayUnit);
+      firstLabel = Math.ceil(displayStart);
+      numberOfLabels = Math.floor(displayLength);
       segment = [];
-      for (i = _i = 0, _ref = Math.floor(dLength); 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-        label = Math.ceil(dStart) + i;
-        ticks = this.convert(label - dStart, displayUnit, nativeUnit) / unitsPerTick;
-        segment[Math.round(ticks)] = label;
+      for (i = _i = 0; 0 <= numberOfLabels ? _i <= numberOfLabels : _i >= numberOfLabels; i = 0 <= numberOfLabels ? ++_i : --_i) {
+        label = firstLabel + i;
+        nativeDelta = this.convert(label - displayStart, displayUnit, nativeUnit);
+        ticks = Math.round(nativeDelta / unitsPerTick);
+        segment[ticks] = label;
       }
       return segment;
     };
