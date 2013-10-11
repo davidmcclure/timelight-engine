@@ -2,6 +2,9 @@
 # vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2 cc=80;
 
 
+require "colors"
+
+
 class Textline
 
 
@@ -11,9 +14,10 @@ class Textline
   #
   # @param {Calendar} @calendar
   # @param {Number} @radius
+  # @param {String} @delimiter
   #
   ###
-  constructor: (@calendar, @radius) ->
+  constructor: (@calendar, @radius, @delimiter=" ") ->
 
 
   ###
@@ -35,10 +39,10 @@ class Textline
 
     timeline = []
     for i in [0...segment.length]
-      tick = if segment[i] then segment[i] else "*"
+      tick = if segment[i] then segment[i] else @delimiter
       timeline.push(tick)
 
-    console.log(timeline.join(""))
+    console.log(timeline.join("").cyan)
 
 
 module.exports = Textline
