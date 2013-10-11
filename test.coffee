@@ -7,7 +7,7 @@ Textline = require('./lib/Textline')
 
 
 calendar = new Calendar([
-  ["yoctosecond", 1000],
+  ["yoctosecond"],
   ["zeptosecond", 1000],
   ["attosecond",  1000],
   ["femtosecond", 1000],
@@ -25,5 +25,5 @@ calendar = new Calendar([
   ["millennium",  10]
 ])
 
-textline = new Textline(calendar, 50)
-textline.render({ year: 2000 }, "day", "day", 0.05)
+textline = new Textline(calendar, 100)
+textline.render({ year: 2000 }, "day", "day", 0.4)

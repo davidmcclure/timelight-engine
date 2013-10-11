@@ -2,6 +2,7 @@
 # vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2 cc=80;
 
 
+_ = require "underscore"
 require "colors"
 
 
@@ -39,7 +40,7 @@ class Textline
 
     timeline = []
     for i in [0...segment.length]
-      tick = if segment[i] then segment[i] else @delimiter
+      tick = if _.isNumber(segment[i]) then segment[i] else @delimiter
       timeline.push(tick)
 
     console.log(timeline.join("").cyan)

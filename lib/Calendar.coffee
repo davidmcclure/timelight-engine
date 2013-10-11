@@ -112,6 +112,10 @@ class Calendar
     # The number of labels needed to fill the segment.
     numberOfLabels = Math.floor(displayLength)
 
+    # The number of display units it the parent unit.
+    parentUnit = @units[@order[displayUnit]+1]
+    divisor = if parentUnit then parentUnit[1] else false
+
     segment = []
 
     for i in [0..numberOfLabels]
@@ -126,7 +130,7 @@ class Calendar
       # label onto the segment array.
 
       ticks = Math.round(nativeDelta / unitsPerTick)
-      segment[ticks] = label
+      segment[ticks] = if divisor then label % divisor else label
 
     segment
 
