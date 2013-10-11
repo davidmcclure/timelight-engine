@@ -131,26 +131,4 @@ class Calendar
     segment
 
 
-
-
-
-# TODO|dev
-calendar = new Calendar [
-  ["millisecond"],
-  ["second",  1000],
-  ["minute",  60],
-  ["hour",    60],
-  ["day",     24],
-  ["year",    365]
-]
-
-segment = calendar.render { year: 2013 }, "year", "day", 50, 50
-
-strip = []
-for i in [0...segment.length]
-  if segment[i]
-    strip.push segment[i]
-  else
-    strip.push "*"
-
-console.log strip.join ""
+module.exports = Calendar

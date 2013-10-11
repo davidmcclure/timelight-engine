@@ -4,22 +4,14 @@
 module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-coffee');
-  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.initConfig({
 
     coffee: {
       compile: {
         files: {
-          'tl-core.js': '*.coffee'
+          'timelight-core.js': 'lib/*.coffee'
         }
-      }
-    },
-
-    watch: {
-      payload: {
-        files: ['*.coffee'],
-        tasks: ['coffee']
       }
     }
 
