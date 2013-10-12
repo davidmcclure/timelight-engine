@@ -5,16 +5,4 @@
 class Unit
 
 
-  ###
-  #
-  # Initialize with a name, subunit, and subunit count.
-  #
-  # @param {String} @name
-  # @param {Unit} @subunit
-  # @param {Number} @count
-  #
-  ###
-  constructor: (@name, @subunit = null, @count = null) ->
-
-
 module.exports = Unit

@@ -7,24 +7,6 @@ Calendar  = require("./lib/Calendar")
 Textline  = require("./lib/Textline")
 
 
-yoctosecond   = new Unit("yoctosecond")
-zeptosecond   = new Unit("zeotpsecond",   yoctosecond,    1000)
-attosecond    = new Unit("attosecond",    zeptosecond,    1000)
-femtosecond   = new Unit("femtosecond",   attosecond,     1000)
-picosecond    = new Unit("picosecond",    femtosecond,    1000)
-nanosecond    = new Unit("nanosecond",    picosecond,     1000)
-microsecond   = new Unit("microsecond",   nanosecond,     1000)
-millisecond   = new Unit("millisecond",   microsecond,    1000)
-second        = new Unit("second",        millisecond,    1000)
-minute        = new Unit("minute",        second,         60)
-hour          = new Unit("hour",          minute,         60)
-day           = new Unit("day",           hour,           24)
-year          = new Unit("year",          day,            365)
-decade        = new Unit("decade",        year,           10)
-century       = new Unit("century",       decade,         10)
-millennium    = new Unit("millennium",    century,        10)
-
-
 calendar = new Calendar([
   ["yoctosecond"],
   ["zeptosecond", 1000],

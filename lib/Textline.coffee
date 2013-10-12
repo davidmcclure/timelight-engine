@@ -26,17 +26,19 @@ class Textline
   # Console log a calendar segment.
   #
   # @param {Object} position
-  # @param {String} dUnit
-  # @param {String} nUnit
+  # @param {String} displayUnit
+  # @param {String} nativeUnit
   # @param {Number} unitsPerTick
   #
   # @return {Array}
   #
   ###
-  render: (position, dUnit, nUnit, unitsPerTick) ->
+  render: (position, displayUnit, nativeUnit, unitsPerTick) ->
 
     # Query for the calendar segment.
-    segment = @calendar.render(position, dUnit, nUnit, unitsPerTick, @radius)
+    segment = @calendar.render(
+      position, displayUnit, nativeUnit, unitsPerTick, @radius
+    )
 
     timeline = []
     for i in [0...segment.length]
