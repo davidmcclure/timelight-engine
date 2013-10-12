@@ -7,28 +7,14 @@ class Unit
 
   ###
   #
-  # Initialize with a name, child unit, and child unit count.
+  # Initialize with a name, subunit, and subunit count.
   #
   # @param {String} @name
-  # @param {Unit} @parent
-  # @param {Unit} @child
+  # @param {Unit} @subunit
   # @param {Number} @count
-  # @param {Number} @order
   #
   ###
-  constructor: (@name, @parent=null, @child=null, @count=null, @order=0) ->
-
-
-  ###
-  #
-  # Generate a new unit that is X times larger than this unit.
-  #
-  # @param {Number} count
-  # @param {String} name
-  #
-  ###
-  times: (count, name) ->
-    @parent = new Unit(name, null, @, count, @order+1)
+  constructor: (@name, @subunit = null, @count = null) ->
 
 
 module.exports = Unit
