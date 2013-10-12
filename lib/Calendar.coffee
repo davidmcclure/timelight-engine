@@ -14,10 +14,15 @@ class Calendar
   ###
   constructor: (@units) ->
 
+    # Map unit names to class instances.
+    @names = {}
+    for unit in @units
+      @names[unit.name] = unit
+
     # Cache the integer offset of each unit.
     @order = {}
     for unit, i in @units
-      @order[unit[0]] = i
+      @order[unit.name] = i
 
 
   ###
@@ -25,8 +30,8 @@ class Calendar
   # Convert between two units.
   #
   # @param {Number} quantity
-  # @param {String} unit1
-  # @param {String} unit2
+  # @param {Unit} unit1
+  # @param {Unit} unit2
   #
   # @return {Number}
   #
@@ -34,7 +39,7 @@ class Calendar
   convert: (quantity, unit1, unit2) ->
 
     # If no unit change, just return the value.
-    if unit1 == unit2
+    if unit1.order == unit2.order
       quantity
 
     else
@@ -46,13 +51,14 @@ class Calendar
 
       # If we're converting "up" to a larger unit.
       if dir
+        @convert
         for i in [i1+1..i2]
-          quantity /= @units[i][1]
+          quantity /= @units[i].count
 
       # If we're converting "down" to a smaller unit.
       else
         for i in [i1...i2]
-          quantity *= @units[i][1]
+          quantity *= @units[i].count
 
     quantity
 
@@ -74,7 +80,7 @@ class Calendar
 
     # Convert each position part to the target unit, add to total.
     for u, q of position
-      total += @convert(q, u, unit)
+      total += @convert(q, @names[u], unit)
 
     total
 
@@ -93,6 +99,10 @@ class Calendar
   #
   ###
   render: (position, displayUnit, nativeUnit, unitsPerTick, tickRadius) ->
+
+    # Get unit instances.
+    displayUnit = @names[displayUnit]
+    nativeUnit = @names[nativeUnit]
 
     # The radius (native units).
     nativeRadius = unitsPerTick * tickRadius
@@ -113,8 +123,7 @@ class Calendar
     numberOfLabels = Math.floor(displayLength)
 
     # The number of display units it the parent unit.
-    parentUnit = @units[@order[displayUnit]+1]
-    divisor = if parentUnit then parentUnit[1] else false
+    divisor = if displayUnit.parent then displayUnit.parent.count else false
 
     segment = []
 
