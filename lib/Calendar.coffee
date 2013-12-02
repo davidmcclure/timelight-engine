@@ -5,13 +5,11 @@
 class Calendar
 
 
-  ###
   #
   # Store the unit definition array, track ordering.
   #
   # @param {Array} @units
   #
-  ###
   constructor: (@units) ->
 
     # Cache the integer offset of each unit.
@@ -20,7 +18,6 @@ class Calendar
       @order[unit[0]] = i
 
 
-  ###
   #
   # Convert between two units.
   #
@@ -30,7 +27,6 @@ class Calendar
   #
   # @return {Number}
   #
-  ###
   convert: (quantity, unit1, unit2) ->
 
     # If no unit change, just return the value.
@@ -57,7 +53,6 @@ class Calendar
     quantity
 
 
-  ###
   #
   # Convert a multi-unit position object to  some number a specific unit.
   # Eg: { years: 1, days: 100 } => 465 days
@@ -67,7 +62,6 @@ class Calendar
   #
   # @return {Number}
   #
-  ###
   positionToUnits: (position, unit) ->
 
     total = 0
@@ -79,7 +73,6 @@ class Calendar
     total
 
 
-  ###
   #
   # Render a calendar segment.
   #
@@ -91,7 +84,6 @@ class Calendar
   #
   # @return {Array}
   #
-  ###
   render: (position, displayUnit, nativeUnit, unitsPerTick, tickRadius) ->
 
     # The radius (native units).

@@ -1,30 +1,104 @@
 
 # vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2 cc=80;
 
+units = [
 
-Unit      = require("./lib/Unit")
-Calendar  = require("./lib/Calendar")
-Textline  = require("./lib/Textline")
+  [
+    "millisecond", {
+      definition: null # Smallest unit, defined in terms of nothing.
+    }
+  ],
 
+  [
+    "second", {
+      definition: ["millisecond", 1000]
+    }
+  ],
 
-calendar = new Calendar([
-  ["yoctosecond"],
-  ["zeptosecond", 1000],
-  ["attosecond",  1000],
-  ["femtosecond", 1000],
-  ["picosecond",  1000],
-  ["nanosecond",  1000],
-  ["microsecond", 1000],
-  ["millisecond", 1000],
-  ["second",      1000],
-  ["minute",      60],
-  ["hour",        60],
-  ["day",         24],
-  ["year",        365],
-  ["decade",      10],
-  ["century",     10],
-  ["millennium",  10]
-])
+  [
+    "minute", {
 
-textline = new Textline(calendar, 100)
-textline.render({ year: 2000 }, "day", "day", 0.1)
+      definition: ["second", 60]
+
+      #
+      # Construct the [HOUR]:[MINUTE] [AM/PM] label for a minute. Eg:
+      #
+      # 1:15 AM
+      # 12:30 PM
+      # 3:45 PM
+      #
+      # @param {Unit} unit
+      # @return {String}
+      #
+      label: (unit) ->
+
+        hour = unit.getPartLabel("hour")
+        minute = unit.getPartLabel("minute")
+        ampm = "AM"
+
+        if hour > 12
+          hour -= 12
+          ampm = "PM"
+
+        "#{hour}:#{minute} #{ampm}"
+
+    }
+  ],
+
+  [
+    "5_minutes", {
+      definition: ["minute", 5],
+      label: "@minute"
+    }
+  ],
+
+  [
+    "10_minutes", {
+      definition: ["minute", 10],
+      label: "@minute"
+    }
+  ],
+
+  [
+    "15_minutes", {
+      definition: ["minute", 15],
+      label: "@minute"
+    }
+  ],
+
+  [
+    "30_minutes", {
+      definition: ["minute", 30],
+      label: "@minute"
+    }
+  ],
+
+  [
+    "hour", {
+      definition: ["minute", 60],
+      label: "@minute"
+    }
+  ],
+
+  [
+    "day", {
+      definition: ["hour", 24]
+    }
+  ],
+
+  [
+    "year", {
+      definition: ["month", [
+
+        [
+          "january", {
+            definition: ["day", 31],
+            label: "January"
+          }
+        ]
+
+      ]]
+    }
+  ],
+
+]
